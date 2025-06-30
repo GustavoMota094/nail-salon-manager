@@ -31,12 +31,25 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party Apps
+    'rest_framework',
+    'corsheaders',
+
+    # My Apps
+    'core.apps.CoreConfig',
+    'apps.services.apps.ServicesConfig',
+    'apps.customers.apps.CustomersConfig',
+    'apps.appointments.apps.AppointmentsConfig',
+    'apps.inventory.apps.InventoryConfig',
+    'apps.financials.apps.FinancialsConfig',
 ]
 
 MIDDLEWARE = [
@@ -74,8 +87,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nailsalon_db',
+        'USER': 'nailsalon_user',
+        'PASSWORD': 'senha_super_segura',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
