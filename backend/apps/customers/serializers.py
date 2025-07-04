@@ -1,9 +1,11 @@
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from .models import Customer
+import uuid
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
@@ -18,6 +20,12 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
+
+        if 'password' not in user_data:
+            user_data['password'] = make_password(str(uuid.uuid64()))
+        else:
+            user_data['password'] = make_password(user_data['password'])
+
         user = User.objects.create_user(**user_data)
         customer = Customer.objects.create(user=user, **validated_data)
         
